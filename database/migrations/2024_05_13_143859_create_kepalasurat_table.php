@@ -11,21 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kepalasurat', function (Blueprint $table) {
+        Schema::create('kepala_surat', function (Blueprint $table) {
             $table->id('id_kop');
-            $table->string('nama_kop',250);
+            $table->string('nama_kop', 250);
             $table->text('alamat_kop');
-            $table->string('nama_tujuan',200);
-           
+            $table->string('nama_tujuan', 200);
+            $table->foreignId('id_user')->constrained('users', 'id_user')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('kepalasurat');
+        Schema::dropIfExists('kepala_surat');
     }
 };

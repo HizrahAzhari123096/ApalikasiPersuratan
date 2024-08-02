@@ -1,82 +1,73 @@
+@extends('template.app')
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Data Kelas</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body style="background: white">
+@section('content')
+<div class="section-header">
+    <h1>Halaman User</h1>
+    <div class="section-header-breadcrumb">
+        <div class="breadcrumb-item active"><a href="#">Dasbor</a></div>
+        <div class="breadcrumb-item"><a href="#">Manajemen</a></div>
+        <div class="breadcrumb-item">Daftar User</div>
+    </div>
+</div>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                <h3 class="text-center my-4">Form Edit Kepala Surat</h3>
+                <hr>
+            </div>
+            <div class="card border-0 shadow-sm rounded">
+                <div class="card-body">
+                <form action="{{ route('kepalasurat.update', $kepalasurat->id_kop) }}" method="POST">
+    @csrf
+    @method('PUT')
 
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-12">
-                <div>
-                    <h3 class="text-center my-4">Data Kepalasurat</h3>
-                    <hr>
-                </div>
-                <div class="card border-0 shadow-sm rounded">
-                    <div class="card-body">
-                    <form action="{{ route('kepalasurat.update', $dataKepalasurat->id_kop) }}" method="POST">
+    <div class="mb-3">
+        <label for="id_kop" class="form-label">ID KOP</label>
+        <input type="text" name="id_kop" class="form-control @error('id_kop') is-invalid @enderror" placeholder="Enter ID Kepala Surat" value="{{ old('id_kop', $kepalasurat->id_kop) }}">
+        @error('id_kop')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
 
-                          @csrf
-                          @method('PUT')
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">ID KOP</label>
-                                <input type="text" name="id_kop" class="form-control" placeholder="Enter ID Kepala Surat"value="{{ old('id_kop', $dataKepalasurat->id_kop) }}">
-                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                                @error('id_kop')
-                                <div class="alert alert-danger mt-2">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                              </div>
+    <div class="mb-3">
+        <label for="nama_kop" class="form-label">Nama KOP</label>
+        <input type="text" name="nama_kop" class="form-control @error('nama_kop') is-invalid @enderror" placeholder="Enter Nama Kepala Surat" value="{{ old('nama_kop', $kepalasurat->nama_kop) }}">
+        @error('nama_kop')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
 
-                              <div class="form-group">
-                                <label for="exampleInputEmail1">Nama_kop</label>
-                                <input type="text" name="nama_kop" class="form-control" placeholder="Enter ID Kepala Surat"value="{{ old('nama_kop', $dataKepalasurat->nama_kop) }}">
-                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                                @error('nama_kop')
-                                <div class="alert alert-danger mt-2">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                              </div>
-                              <div class="form-group">
-                                <label for="exampleInputEmail1">alamat_kop</label>
-                                <input type="text" name="alamat_kop" class="form-control" placeholder="Enter ID Kepala Surat"value="{{ old('alamat_kop', $dataKepalasurat->alamat_kop) }}">
-                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                                @error('alamat_kop')
-                                <div class="alert alert-danger mt-2">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                              </div>
-                              <div class="form-group">
-                                <label for="exampleInputEmail1">nama_tujuan</label>
-                                <input type="text" name="nama_tujuan" class="form-control" placeholder="Enter ID Kepala Surat"value="{{ old('nama_tujuan', $dataKepalasurat->nama_tujuan) }}">
-                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                                @error('nama_tujuan')
-                                <div class="alert alert-danger mt-2">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                              </div>
+    <div class="mb-3">
+        <label for="alamat_kop" class="form-label">Alamat KOP</label>
+        <input type="text" name="alamat_kop" class="form-control @error('alamat_kop') is-invalid @enderror" placeholder="Enter Alamat Kepala Surat" value="{{ old('alamat_kop', $kepalasurat->alamat_kop) }}">
+        @error('alamat_kop')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
 
-                              <br/>
-                              <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Simpan</button>
-                              </div>
-                          </form>
-           
-                        
-                        {{-- {{ $user->links() }} --}}
-                    </div>
+    <div class="mb-3">
+        <label for="nama_tujuan" class="form-label">Nama Tujuan</label>
+        <input type="text" name="nama_tujuan" class="form-control @error('nama_tujuan') is-invalid @enderror" placeholder="Enter Nama Tujuan" value="{{ old('nama_tujuan', $kepalasurat->nama_tujuan) }}">
+        @error('nama_tujuan')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <div class="mb-3">
+        <label for="id_user" class="form-label">ID User</label>
+        <input type="text" name="id_user" class="form-control @error('id_user') is-invalid @enderror" placeholder="Enter ID User" value="{{ old('id_user', $kepalasurat->id_user) }}">
+        @error('id_user')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <button type="submit" class="btn btn-primary">Simpan</button>
+</form>
+
                 </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+</div>
+@endsection

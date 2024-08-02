@@ -22,16 +22,28 @@ class UserController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        // Validasi input
         $request->validate([
-            'user_name'    => 'required',
-            'password'     => 'required',
-            'status'       => 'required',
+            'user_name' => 'required',
+            'password' => 'required',
+            'status' => 'required',
             'nama_petugas' => 'required',
         ]);
 
-        Users::create($request->all());
+        // Simpan data ke dalam database
+        try {
+            $user = User::create([
+                'user_name' => $request->user_name,
+                'password' => bcrypt($request->password), // Encrypt password
+                'status' => $request->status,
+                'nama_petugas' => $request->nama_petugas,
+            ]);
 
-        return redirect()->route('users.index')->with(['success' => 'User berhasil ditambahkan!']);
+            return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            // Tangani error jika terjadi
+            return redirect()->back()->withErrors(['msg' => 'Gagal menambahkan user: ' . $e->getMessage()]);
+        }
     }
 
     public function edit(User $user): View
@@ -41,21 +53,42 @@ class UserController extends Controller
 
     public function update(Request $request, User $user): RedirectResponse
     {
+        // Validasi input
         $request->validate([
-            'user_name'    => 'required',
-            'password'     => 'required',
-            'status'       => 'required',
+            'user_name' => 'required',
+            'password' => 'required',
+            'status' => 'required',
             'nama_petugas' => 'required',
         ]);
 
-        $user->update($request->all());
+        // Update data user
+        try {
+            $user->update([
+                'user_name' => $request->user_name,
+                'password' => bcrypt($request->password), // Encrypt password
+                'status' => $request->status,
+                'nama_petugas' => $request->nama_petugas,
+            ]);
 
-        return redirect()->route('users.index')->with(['success' => 'User berhasil diperbarui!']);
+            return redirect()->route('users.index')->with('success', 'User berhasil diperbarui!');
+        } catch (\Exception $e) {
+            // Tangani error jika terjadi
+            return redirect()->back()->withErrors(['msg' => 'Gagal memperbarui user: ' . $e->getMessage()]);
+        }
     }
 
     public function destroy(User $user): RedirectResponse
     {
-        $user->delete();
-        return redirect()->route('users.index')->with(['success' => 'User berhasil dihapus!']);
+        try {
+            $user->delete();
+            return redirect()->route('users.index')->with('success', 'User berhasil dihapus!');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['msg' => 'Gagal menghapus user: ' . $e->getMessage()]);
+        }
+    }
+
+    public function show(User $user): View
+    {
+        return view('users.show', compact('user'));
     }
 }

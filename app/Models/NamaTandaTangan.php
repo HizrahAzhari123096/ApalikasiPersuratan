@@ -10,13 +10,17 @@ class NamaTandaTangan extends Model
     use HasFactory;
 
     protected $table = 'namatandatangan';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_tandatangan';
 
     protected $fillable = [
-        'id',
+        'id_tandatangan',
         'nama_tandatangan',
         'jabatan',
         'nip',
-        
     ];
+
+    public function suratKeluar()
+    {
+        return $this->hasMany(SuratKeluar::class, 'id_tandatangan', 'id_tandatangan');
+    }
 }

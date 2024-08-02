@@ -1,68 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Data Kepala Surat</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body style="background: white">
+@extends('template.app')
 
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-12">
-                <div>
-                    <h3 class="text-center my-4">Data namatandatangan</h3>
-                    <hr>
-                </div>
-                <div class="card border-0 shadow-sm rounded">
-                    <div class="card-body">
-                        <a href="{{ route('namatandatangan.create') }}" class="btn btn-md btn-info mb-3">TAMBAH</a>
-                        <table class="table table-bordered">
-                            <thead>
+@section('content')
+<div class="section-header">
+    <h1>Halaman User</h1>
+    <div class="section-header-breadcrumb">
+        <div class="breadcrumb-item active"><a href="#">Dasbor</a></div>
+        <div class="breadcrumb-item"><a href="#">Manajemen</a></div>
+        <div class="breadcrumb-item">Daftar User</div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                <h3 class="text-center my-4">Data Nama Tanda Tangan</h3>
+                <hr>
+            </div>
+            <div class="card border-0 shadow-sm rounded">
+                <div class="card-body">
+                    <a href="{{ route('namatandatangan.create') }}" class="btn btn-md btn-info mb-3">Tambah</a>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">ID</th>
+                                <th scope="col">Nama Tanda Tangan</th>
+                                <th scope="col">Jabatan</th>
+                                <th scope="col">NIP</th>
+                                <th scope="col" style="width: 20%">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($namatandatangan as $index => $item)
                                 <tr>
-
-                                    <th scope="col">No</th>
-                                    <th scope="col">id</th>
-                                    <th scope="col">Nama tandatangan</th>
-                                    <th scope="col">Jabatan</th>
-                                    <th scope="col">Nip</th>
-                                    <th scope="col" style="width: 20%">ACTIONS</th>
+                                    <td class="text-center">{{ $index + 1 }}</td>
+                                    <td>{{ $item->id_tandatangan }}</td>
+                                    <td>{{ $item->nama_tandatangan }}</td>
+                                    <td>{{ $item->jabatan }}</td>
+                                    <td>{{ $item->nip }}</td>
+                                    <td class="text-center">
+                                        <a href="{{ route('namatandatangan.show', $item->id_tandatangan) }}" class="btn btn-info btn-sm">Show</a>
+                                        <a href="{{ route('namatandatangan.edit', $item->id_tandatangan) }}" class="btn btn-warning btn-sm">Edit</a>
+                                        <form action="{{ route('namatandatangan.destroy', $item->id_tandatangan) }}" method="POST" style="display:inline-block;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
+                                        </form>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($datanamatandatangan as $index => $namatandatangan)
-                                    <tr>
-                                        <td class="text-center">
-                                            {{ ++$index }}
-                                        </td>
-                                        <td>{{ $namatandatangan->id }}</td>
-                                        <td>{{ $namatandatangan->nama_tandatangan }}</td>
-                                        <td>{{ $namatandatangan->jabatan}}</td>
-                                        <td>{{ $namatandatangan->nip}}</td>
-                                        <td class="text-center">
-                                        <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('namatandatangan.destroy', $namatandatangan->id) }}" method="POST">
-                                                <a href="{{ route('namatandatangan.show', $namatandatangan->id) }}" class="btn btn-sm btn-dark">SHOW</a>
-                                                <a href="{{ route('namatandatangan.edit', $namatandatangan->id) }}" class="btn btn-sm btn-primary">EDIT</a>
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger">HAPUS</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <div class="alert alert-danger">
-                                        Data Kelas Belum Ada.
-                                    </div>
-                                @endforelse
-                            </tbody>
-                        </table>
-                        {{-- {{ $user->links() }} --}}
-                    </div>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center">
+                                        <div class="alert alert-danger">
+                                            Data Nama Tanda Tangan belum tersedia.
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                    {{ $namatandatangan->links() }} <!-- Pagination links -->
                 </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+</div>
+
+@endsection

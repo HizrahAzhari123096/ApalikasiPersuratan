@@ -1,66 +1,67 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Data User</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body style="background: white">
+@extends('template.app')
 
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-12">
-                <div>
-                    <h3 class="text-center my-4">User</h3>
-                    <hr>
-                </div>
-                <div class="card border-0 shadow-sm rounded">
-                    <div class="card-body">
-                        <a href="{{ route('users.create') }}" class="btn btn-md btn-info mb-3">TAMBAH</a>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th scope="col">No</th>
-                                    <th scope="col">Id</th>
-                                    <th scope="col">User_name</th>
-                                    <th scope="col">Password</th>
-                                    <th scope="col">Status/th>
-                                    <th scope="col">Nama_petugas/th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($datauser as $index => $user)
-                                    <tr>
-                                        <td class="text-center">{{ ++$index }}</td>
-                                        <td>{{ $user->id}}</td>
-                                        <td>{{ $user->username }}</td>
-                                        <td>{{ $user->password}}</td>
-                                        <td>{{ $user->status }}</td>
-                                        <td>{{ $user->nama_petugas }}</td>
-                                        <td class="text-center">
-                                            <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('users.destroy', $users->id) }}" method="POST">
-                                                <a href="{{ route('users.show', $users->id) }}" class="btn btn-sm btn-dark">SHOW</a>
-                                                <a href="{{ route('users.edit', $users->id) }}" class="btn btn-sm btn-primary">EDIT</a>
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger">HAPUS</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="5" class="text-center">Data Pengguna Belum Ada.</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                        {{-- {{ $users->links() }} --}}
+@section('content')
+<div class="section-header">
+    <h1>Halaman User</h1>
+    <div class="section-header-breadcrumb">
+        <div class="breadcrumb-item active"><a href="#">Dasbor</a></div>
+        <div class="breadcrumb-item"><a href="#">Manajemen</a></div>
+        <div class="breadcrumb-item">Daftar User</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="card-title">Daftar User</h4>
+                <a href="{{ route('users.create') }}" class="btn btn-primary">Tambah User Baru</a>
+            </div>
+            <div class="card-body">
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
                     </div>
+                @endif
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Username</th>
+                                <th scope="col">Password</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Nama Petugas</th>
+                                <th scope="col" style="width: 20%">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($users as $user)
+                                <tr>
+                                    <td>{{ $user->id_user }}</td>
+                                    <td>{{ $user->user_name }}</td>
+                                    <td>{{ $user->password }}</td>
+                                    <td>{{ $user->status }}</td>
+                                    <td>{{ $user->nama_petugas }}</td>
+                                    <td class="text-center">
+                                        <a href="{{ route('users.show', $user->id_user) }}" class="btn btn-info btn-sm">Show</a>
+                                        <a href="{{ route('users.edit', $user->id_user) }}" class="btn btn-warning btn-sm">Edit</a>
+                                        <form action="{{ route('users.destroy', $user->id_user) }}" method="POST" style="display:inline-block;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus user ini?')">Hapus</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
+
+                {{ $users->links() }} <!-- Pagination links -->
+
             </div>
         </div>
     </div>
-</body>
-</html>
+</div>
+@endsection

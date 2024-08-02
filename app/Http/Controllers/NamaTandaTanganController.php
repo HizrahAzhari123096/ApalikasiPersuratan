@@ -3,78 +3,74 @@
 namespace App\Http\Controllers;
 
 use App\Models\NamaTandaTangan;
-use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class NamaTandaTanganController extends Controller
 {
+    // Display a listing of the resource.
     public function index(): View
     {
-        $datanamatandatangan = NamaTandaTangan::latest()->paginate(10);
-        return view('namatandatangan.index', compact('datanamatandatangan'));
+        $namatandatangan = NamaTandaTangan::orderBy('id_tandatangan', 'asc')->paginate(10);
+        return view('namatandatangan.index', compact('namatandatangan'));
     }
 
+    // Show the form for creating a new resource.
     public function create(): View
     {
-        return view('namatandatangan.create');
+        $lastId = NamaTandaTangan::max('id_tandatangan') + 1;
+        return view('namatandatangan.create', compact('lastId'));
     }
 
+    // Store a newly created resource in storage.
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'id'              => 'required|unique:namatandatangan,id',
-            'nama_tandatangan' => 'required',
-            'jabatan'         => 'required',
-            'nip'             => 'required',
+            'nama_tandatangan' => 'required|string|max:100',
+            'jabatan' => 'required|string|max:200',
+            'nip' => 'required|string|max:25|unique:namatandatangan,nip',
         ]);
 
-        NamaTandaTangan::create([
-            'id'              => $request->id,
-            'nama_tandatangan' => $request->nama_tandatangan,
-            'jabatan'         => $request->jabatan,
-            'nip'             => $request->nip,
-        ]);
+        NamaTandaTangan::create($request->only(['nama_tandatangan', 'jabatan', 'nip']));
 
-        return redirect()->route('namatandatangan.index')->with(['success' => 'Data Berhasil Disimpan!']);
+        return redirect()->route('namatandatangan.index')->with('success', 'Data Berhasil Disimpan!');
     }
 
-    public function edit(string $id): View
+    // Display the specified resource.
+    public function show(int $id_tandatangan): View
     {
-        $datanamatandatangan = NamaTandaTangan::findOrFail($id);
-        return view('namatandatangan.edit', compact('datanamatandatangan'));
-    }
-
-    public function show(string $id): View
-    {
-        $namatandatangan = NamaTandaTangan::findOrFail($id);
+        $namatandatangan = NamaTandaTangan::findOrFail($id_tandatangan);
         return view('namatandatangan.show', compact('namatandatangan'));
     }
 
-    public function update(Request $request, $id): RedirectResponse
+    // Show the form for editing the specified resource.
+    public function edit(int $id_tandatangan): View
     {
-        $request->validate([
-            'id'              => 'required',
-            'nama_tandatangan' => 'required',
-            'jabatan'         => 'required',
-            'nip'             => 'required',
-        ]);
-
-        $namatandatangan = NamaTandaTangan::findOrFail($id);
-        $namatandatangan->update([
-            'id'              => $request->id,
-            'nama_tandatangan' => $request->nama_tandatangan,
-            'jabatan'         => $request->jabatan,
-            'nip'             => $request->nip,
-        ]);
-
-        return redirect()->route('namatandatangan.index')->with(['success' => 'Data Berhasil Diubah!']);
+        $namatandatangan = NamaTandaTangan::findOrFail($id_tandatangan);
+        return view('namatandatangan.edit', compact('namatandatangan'));
     }
 
-    public function destroy($id): RedirectResponse
+    // Update the specified resource in storage.
+    public function update(Request $request, int $id_tandatangan): RedirectResponse
     {
-        $namatandatangan = NamaTandaTangan::findOrFail($id);
+        $request->validate([
+            'nama_tandatangan' => 'required|string|max:100',
+            'jabatan' => 'required|string|max:200',
+            'nip' => 'required|string|max:25|unique:namatandatangan,nip,' . $id_tandatangan . ',id_tandatangan',
+        ]);
+
+        $namatandatangan = NamaTandaTangan::findOrFail($id_tandatangan);
+        $namatandatangan->update($request->only(['nama_tandatangan', 'jabatan', 'nip']));
+
+        return redirect()->route('namatandatangan.index')->with('success', 'Data Berhasil Diubah!');
+    }
+
+    // Remove the specified resource from storage.
+    public function destroy(int $id_tandatangan): RedirectResponse
+    {
+        $namatandatangan = NamaTandaTangan::findOrFail($id_tandatangan);
         $namatandatangan->delete();
-        return redirect()->route('namatandatangan.index')->with(['success' => 'Data Berhasil Dihapus!']);
+        return redirect()->route('namatandatangan.index')->with('success', 'Data Berhasil Dihapus!');
     }
 }
