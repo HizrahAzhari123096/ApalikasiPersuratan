@@ -7,6 +7,14 @@
 ![alt text](https://github.com/HizrahAzhari123096/ApalikasiPersuratan/blob/main/Screenshot%202024-08-02%20200651.jpg)
 ![alt text](https://github.com/HizrahAzhari123096/ApalikasiPersuratan/blob/main/Screenshot%202024-08-02%20200713.jpg)
 ![alt text](https://github.com/HizrahAzhari123096/ApalikasiPersuratan/blob/main/Screenshot%202024-08-02%20200749.jpg)
+![alt text](https://github.com/HizrahAzhari123096/ApalikasiPersuratan/blob/main/Screenshot%202024-08-02%20200905.jpg)
+![alt text](https://github.com/HizrahAzhari123096/ApalikasiPersuratan/blob/main/Screenshot%202024-08-02%20200935.jpg)
+![alt text](https://github.com/HizrahAzhari123096/ApalikasiPersuratan/blob/main/Screenshot%202024-08-02%20201008.jpg)
+![alt text](https://github.com/HizrahAzhari123096/ApalikasiPersuratan/blob/main/Screenshot%202024-08-02%20201028.jpg)
+![alt text](https://github.com/HizrahAzhari123096/ApalikasiPersuratan/blob/main/Screenshot%202024-08-02%20201052.jpg)
+![alt text](https://github.com/HizrahAzhari123096/ApalikasiPersuratan/blob/main/Screenshot%202024-08-02%20201213.jpg)
+![alt text](https://github.com/HizrahAzhari123096/ApalikasiPersuratan/blob/main/Screenshot%202024-08-02%20201240.jpg)
+
 
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
